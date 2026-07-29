@@ -1,0 +1,28 @@
+{
+  "policyVersion": "1.0",
+  "collectionId": "assistant-memory",
+  "maxContentChars": 500,
+  "blockedSensitivities": ["secret", "credential"],
+  "rejectInstructionFromUntrusted": true,
+  "purposes": [
+    {
+      "id": "personalization",
+      "maxTtlDays": 90,
+      "allowedScopes": ["profile", "workspace"],
+      "allowedSensitivities": ["public", "internal"],
+      "allowedSourceKinds": ["user", "system"],
+      "allowedSourceTrust": ["trusted"],
+      "requiresConsent": false
+    },
+    {
+      "id": "support-context",
+      "maxTtlDays": 7,
+      "allowedScopes": ["ticket"],
+      "allowedSensitivities": ["public", "internal", "personal"],
+      "allowedSourceKinds": ["user", "tool", "import"],
+      "allowedSourceTrust": ["trusted", "untrusted"],
+      "requiresConsent": false
+    }
+  ],
+  "consents": []
+}

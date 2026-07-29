@@ -1,0 +1,9 @@
+{
+  "name": "@persistpermit/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "persist-permit": "./dist/index.js" },
+  "dependencies": { "@persistpermit/core": "workspace:*" },
+  "scripts": { "build": "tsc -p tsconfig.build.json" }
+}

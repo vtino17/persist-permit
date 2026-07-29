@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0",
+  "collectionId": "assistant-memory",
+  "proposals": [{
+    "id": "mem-theme",
+    "content": "User prefers a dark interface theme.",
+    "purposeId": "personalization",
+    "scope": "profile",
+    "subjectIds": ["user-42"],
+    "sensitivity": "internal",
+    "source": { "kind": "user", "origin": "conversation", "trust": "trusted" },
+    "facts": [{ "key": "ui.theme", "value": "dark" }],
+    "createdAt": "2026-07-29T08:00:00.000Z",
+    "supersedesIds": []
+  }]
+}

@@ -1,0 +1,23 @@
+name: Retention control proposal
+description: Propose a deterministic memory-write rule
+title: "control: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: risk
+    attributes:
+      label: Persistent-memory risk
+    validations:
+      required: true
+  - type: textarea
+    id: rule
+    attributes:
+      label: Deterministic rule
+    validations:
+      required: true
+  - type: textarea
+    id: limits
+    attributes:
+      label: False positives and limitations
+    validations:
+      required: true
