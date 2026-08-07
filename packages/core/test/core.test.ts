@@ -117,6 +117,37 @@ describe("retention compilation", () => {
     const batch: MemoryBatch = { ...safeBatch, proposals: [safeBatch.proposals[0]!, safeBatch.proposals[0]!] };
     await expect(compileRetention({ batch, store: sampleStore, policy: samplePolicy })).rejects.toThrow("Duplicate proposal");
   });
+
+  it("rejects invalid proposal timestamps before compilation", async () => {
+    const proposal = { ...safeBatch.proposals[0]!, createdAt: "not-a-date" };
+    const batch = { ...safeBatch, proposals: [proposal] };
+    await expect(compileRetention({ batch, store: sampleStore, policy: samplePolicy }))
+      .rejects.toThrow("createdAt must be a valid date");
+  });
+
+  it.each([Number.NaN, Number.POSITIVE_INFINITY, 0])(
+    "rejects invalid purpose TTL values (%s)",
+    async (maxTtlDays) => {
+      const policy = structuredClone(samplePolicy);
+      policy.purposes[0]!.maxTtlDays = maxTtlDays;
+      await expect(compileRetention({ batch: safeBatch, store: sampleStore, policy }))
+        .rejects.toThrow("Invalid purpose rule");
+    },
+  );
+
+  it("rejects malformed purpose control arrays", async () => {
+    const policy = structuredClone(samplePolicy);
+    policy.purposes[0]!.allowedSourceTrust = ["invalid" as "trusted"];
+    await expect(compileRetention({ batch: safeBatch, store: sampleStore, policy }))
+      .rejects.toThrow("Invalid purpose rule");
+  });
+
+  it("rejects consent grants for unknown purposes", async () => {
+    const policy = structuredClone(samplePolicy);
+    policy.consents[0]!.purposeIds = ["missing"];
+    await expect(compileRetention({ batch: safeBatch, store: sampleStore, policy }))
+      .rejects.toThrow("unknown purposes");
+  });
 });
 
 describe("retention receipts", () => {
